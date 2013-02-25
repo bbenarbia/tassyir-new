@@ -14,11 +14,11 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserRepositoryImpl  implements UserRepository {
+public class UserRepositoryImpl implements UserRepository {
 
 	@PersistenceContext
 	protected EntityManager em;
-	
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public Collection<User> findByLastName(String lastName)
@@ -36,9 +36,7 @@ public class UserRepositoryImpl  implements UserRepository {
 		query.setParameter("login", login);
 		return (User) query.getSingleResult();
 	}
-	
-	
-	
+
 	public User load(Integer id) {
 		return (User) em.find(User.class, id);
 	}
@@ -53,18 +51,12 @@ public class UserRepositoryImpl  implements UserRepository {
 		em.merge(user);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.strator.iris.common.dao.IGenericDao#delete(T)
-	 */
 	public void delete(User user) {
 		em.remove(user);
 	}
 
 	public Integer delete(Integer id) {
-		String queryString = " DELETE FROM User" 
-				+ " WHERE id = :id ";
+		String queryString = " DELETE FROM User" + " WHERE id = :id ";
 
 		Query query = em.createQuery(queryString);
 		query.setParameter("id", id);
@@ -72,10 +64,10 @@ public class UserRepositoryImpl  implements UserRepository {
 		return query.executeUpdate();
 	}
 
-//	@Override
-//	public int executeHQLUpdate(String hql) {
-//		return em.createQuery(hql).executeUpdate();
-//	}
+	// @Override
+	// public int executeHQLUpdate(String hql) {
+	// return em.createQuery(hql).executeUpdate();
+	// }
 
 	public void save(User... entities) {
 		for (User user : entities) {

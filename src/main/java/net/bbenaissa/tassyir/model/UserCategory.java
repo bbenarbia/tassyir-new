@@ -18,6 +18,15 @@ import org.hibernate.annotations.CascadeType;
 @Table(name = "user_categories")
 public class UserCategory extends NamedEntity {
 
+	
+	@ManyToMany
+	@JoinTable(name = "user_categories_roles", 
+	joinColumns = @JoinColumn(name = "id_catgory"), 
+	inverseJoinColumns = @JoinColumn(name = "id_role"))
+	@Cascade(CascadeType.SAVE_UPDATE)
+	private Set<Role> roles = new HashSet<Role>();
+	
+	
 	@ManyToMany
 	@JoinTable(name = "re_categorieUtilisateur_fonctions", joinColumns = @JoinColumn(name = "fk_categorieutilisateur"), inverseJoinColumns = @JoinColumn(name = "fk_fonction"))
 	@Cascade(CascadeType.SAVE_UPDATE)
@@ -43,4 +52,14 @@ public class UserCategory extends NamedEntity {
 	public void setDroitsUtilisateurs(Set<UserDroit> droitsUtilisateurs) {
 		this.droitsUtilisateurs = droitsUtilisateurs;
 	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+	
+	
 }

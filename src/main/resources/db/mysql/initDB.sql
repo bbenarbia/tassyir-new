@@ -42,36 +42,13 @@ CREATE TABLE IF NOT EXISTS owners (
 ) engine=InnoDB;
 
 
-CREATE TABLE IF NOT EXISTS users (
-  id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  first_name VARCHAR(30),
-  last_name VARCHAR(30),
-  login VARCHAR(30),
-  password VARCHAR(30),
-  connected tinyint(1),
-  locked  tinyint (1),
-  is_admin  tinyint (1),
-  fk_contact INT(4),
-  fk_categorieutilisateur INT(4),  
-  INDEX(last_name),
-  FOREIGN KEY (fk_categorieutilisateur) REFERENCES user_categories(id)
-) engine=InnoDB;
-
-CREATE TABLE IF NOT EXISTS user_categories (
-  id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(30),
-  INDEX(name)
-) engine=InnoDB;
-
-
-
 CREATE TABLE IF NOT EXISTS fonction (
     id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(30),
     fonction_type INT(4),
-    fk_categorieutilisateur_fonction INT(4),  
-  	INDEX(name),
-    FOREIGN KEY (fk_categorieutilisateur_fonction) REFERENCES user_categories(id)
+--    fk_categorieutilisateur_fonction INT(4),  
+  	INDEX(name)
+--    FOREIGN KEY (fk_categorieutilisateur_fonction) REFERENCES user_categories(id)
 )engine=InnoDB;
 
 
@@ -87,21 +64,6 @@ CREATE TABLE IF NOT EXISTS pets (
   FOREIGN KEY (type_id) REFERENCES types(id)
 ) engine=InnoDB;
 
-CREATE TABLE IF NOT EXISTS roles (
-  id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(255),
-  fk_categorieutilisateur_roles INT(4),  
-  FOREIGN KEY (fk_categorieutilisateur_roles) REFERENCES user_categories(id)
-  index(name)
-  ) engine=InnoDB;
-
- CREATE TABLE IF NOT EXISTS user_role (
-  id_user INT(4) UNSIGNED NOT NULL ,
-  id_role INT(4) UNSIGNED NOT NULL ,
-  FOREIGN KEY (id_user) REFERENCES users(id),
-  FOREIGN KEY (id_role) REFERENCES roles(id),
-  UNIQUE(id_user,  id_role)
-  ) engine=InnoDB;
   
 CREATE TABLE IF NOT EXISTS visits (
   id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -112,8 +74,28 @@ CREATE TABLE IF NOT EXISTS visits (
 ) engine=InnoDB;
 
 
-CREATE TABLE IF NOT EXISTS contact (
+
+
+
+ CREATE TABLE IF NOT EXISTS parameters (
   id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(30),
+  parameter_value VARCHAR(80),
+  parameter_description VARCHAR(255),
+  INDEX(name)
+) engine=InnoDB;
+
+
+ CREATE TABLE IF NOT EXISTS user_categories (
+  id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(30),
+  INDEX(name)
+) engine=InnoDB;
+
+
+
+CREATE TABLE IF NOT EXISTS contact (
+  id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT,
   typecontact INT(4) DEFAULT 0,
   name VARCHAR(30),
   nomsocietecontact VARCHAR(30),
@@ -130,5 +112,47 @@ CREATE TABLE IF NOT EXISTS contact (
   sitewebcontact VARCHAR(80),
   telephonecontact1 VARCHAR(80),
   telephonecontact2 VARCHAR(80),
+  PRIMARY KEY (id),
   INDEX(name)
 )engine=InnoDB;
+
+CREATE TABLE IF NOT EXISTS roles (
+  id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255),
+  description VARCHAR(255),
+  index(name)
+  ) engine=InnoDB;
+
+CREATE TABLE IF NOT EXISTS user_categories_roles (
+  id_catgory INT(4) UNSIGNED NOT NULL,
+  id_role INT(4) UNSIGNED NOT NULL,
+  FOREIGN KEY (id_catgory) REFERENCES user_categories(id),
+  FOREIGN KEY (id_role) REFERENCES roles(id),
+  UNIQUE(id_catgory,  id_role)
+) engine=InnoDB;
+
+
+CREATE TABLE IF NOT EXISTS users (
+  id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  first_name VARCHAR(30),
+  last_name VARCHAR(30),
+  login VARCHAR(30),
+  password VARCHAR(30),
+  connected tinyint(1),
+  locked  tinyint (1),
+  is_admin  tinyint (1),
+  fk_contact INT(4) UNSIGNED NOT NULL,
+  fk_categorieutilisateur INT(4) UNSIGNED NOT NULL,  
+  FOREIGN KEY (fk_contact) REFERENCES  contact(id),
+  FOREIGN KEY (fk_categorieutilisateur) REFERENCES  user_categories(id),
+  INDEX(last_name)
+) engine=InnoDB;
+
+
+ CREATE TABLE IF NOT EXISTS user_role (
+  id_user INT(4) UNSIGNED NOT NULL ,
+  id_role INT(4) UNSIGNED NOT NULL ,
+  FOREIGN KEY (id_user) REFERENCES users(id),
+  FOREIGN KEY (id_role) REFERENCES roles(id),
+  UNIQUE(id_user,  id_role)
+  ) engine=InnoDB;

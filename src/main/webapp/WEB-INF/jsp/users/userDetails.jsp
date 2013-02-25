@@ -54,7 +54,7 @@
     </table>
 
     <h2>Roles</h2>
- <%--
+ 
     <c:forEach var="role" items="${user.roles}">
         <table class="table" style="width:600px;">
             <tr>
@@ -65,10 +65,10 @@
                         <%-- <dt>Birth Date</dt>
                         <dd><joda:format value="${pet.birthDate}" pattern="yyyy-MM-dd"/></dd>
                         <dt>Type</dt>
-                        <dd><c:out value="${pet.type.name}"/></dd> 
+                        <dd><c:out value="${pet.type.name}"/></dd> --%>
                     </dl>
                 </td>
-                <td valign="top">
+               <%--  <td valign="top">
                     <table class="table-condensed">
                         <thead>
                         <tr>
@@ -99,11 +99,11 @@
                             </td>
                        	</tr>
                     </table>
-                </td>
+                </td> --%>
             </tr>
         </table>
     </c:forEach>  
---%>
+
     <jsp:include page="../fragments/footer.jsp"/>
 
 </div>

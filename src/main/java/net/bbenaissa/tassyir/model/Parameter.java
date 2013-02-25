@@ -7,11 +7,22 @@ import javax.persistence.Table;
 import net.bbenaissa.tassyir.model.common.NamedEntity;
 
 @Entity
-@Table(name = "roles")
-public class Role extends NamedEntity{
+@Table(name = "parameters")
+public class Parameter extends NamedEntity {
 
-	@Column(name = "description")
+	@Column(name = "parameter_value")
+	private String value;
+
+	@Column(name = "parameter_description")
 	private String description;
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
 
 	public String getDescription() {
 		return description;
@@ -20,6 +31,4 @@ public class Role extends NamedEntity{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
 }
